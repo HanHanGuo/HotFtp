@@ -20,7 +20,7 @@ public class CommandHandle {
 	
 	private Integer clientPort;//客户端端口
 	
-	private DataHandle dataHandle;//主动模式处理器
+	private DataHandle dataHandle;//数据传输处理器
 	
 	private FtpSender ftpSender;//ftp消息发送器
 	
@@ -58,13 +58,44 @@ public class CommandHandle {
 				return PASV_HANDLE(command,arg).toString();
 			case RETR:
 				return RETR_HANDLE(command,arg).toString();
+			case STOR:
+				return STOR_HANDLE(command,arg).toString();
 			case TYPE:
 				return TYPE_HANDLE(command,arg).toString();
+			case MKD:
+				return MKD_HANDLE(command,arg).toString();
+			case RMD:
+				return RMD_HANDLE(command,arg).toString();
+			case DELE:
+				return DELE_HANDLE(command,arg).toString();
 			default:
 				return DEFAULT_HANDLE(command, arg).toString();
 		}
 	}
 	
+	private Command DELE_HANDLE(String command, String[] arg) {
+		fileController.deleteFile(arg[0]);
+		return Command.SUCCESS();
+	}
+
+	private Command STOR_HANDLE(String command, String[] arg) {
+		if(connectionType == ConnectionType.PAVS) {
+			dataHandle.start();
+		}
+		dataHandle.STOR_HANDLE(arg[0]);
+		return Command.COMMAND(421, "命令执行完成");
+	}
+
+	private Command RMD_HANDLE(String command, String[] arg) {
+		fileController.deleteFolder(arg[0]);
+		return Command.SUCCESS();
+	}
+
+	private Command MKD_HANDLE(String command, String[] arg) {
+		fileController.createFolder(arg[0]);
+		return Command.SUCCESS();
+	}
+
 	private Command TYPE_HANDLE(String command, String[] arg) {
 		if(arg[0].equals("I")) {
 			return Command.SUCCESS("传输类型设置为I");

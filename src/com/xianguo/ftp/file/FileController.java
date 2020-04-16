@@ -25,6 +25,10 @@ public class FileController {
 	public File getFile(String path) {
 		return new File(this.root + path);
 	}
+
+	public File getCwdFile() {
+		return cwdFile;
+	}
 	
 	public Command changeCwd(String cwd) {
 		if(cwd.startsWith("\\")) {
@@ -111,5 +115,28 @@ public class FileController {
 			}
 		}
 		return sb == null ? "" : sb.toString();
+	}
+	
+	public void createFolder(String name) {
+		String path = cwdFile.getAbsolutePath() + "\\" + name;
+		File file = new File(path);
+		if (!file.exists()){
+			file.mkdir();
+		}
+	}
+
+	public void deleteFolder(String name) {
+		String path = cwdFile.getAbsolutePath() + "\\" + name;
+		File file = new File(path);
+		if (file.exists()){
+			file.delete();
+		}
+	}
+	
+	public void deleteFile(String name) {
+		File file = new File(cwdFile, name);
+		if (file.exists()){
+			file.delete();
+		}
 	}
 }

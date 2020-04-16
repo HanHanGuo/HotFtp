@@ -26,8 +26,16 @@ public enum CommandType {
 	PASV("PASV"),
 	//下载文件
 	RETR("RETR"),
+	//上传文件
+	STOR("STOR"),
 	//设置传输类型
-	TYPE("TYPE");
+	TYPE("TYPE"),
+	//创建文件夹
+	MKD("MKD"),
+	//删除文件夹
+	RMD("RMD"),
+	//删除文件
+	DELE("DELE");
 	
 	private String command;
 	

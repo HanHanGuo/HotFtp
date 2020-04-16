@@ -13,6 +13,7 @@ package com.xianguo.ftp.command;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -105,6 +106,30 @@ abstract class DataHandle {
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void STOR_HANDLE(String name) {
+		try {
+			File file = new File(fileController.getCwdFile(),name);
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+			ftpSender.sendCommand(150, "开始上传文件:\""+name+"\"");
+			FileOutputStream fos = new FileOutputStream(file);
+			InputStream is = socket.getInputStream();
+			byte[] temp = new byte[1024];
+			int len = -1;
+			while((len = is.read(temp)) != -1) {
+				fos.write(temp, 0, len);
+			}
+			os.flush();
+			is.close();
+			fos.close();
+			close();
+			ftpSender.sendCommand(226, "文件上传完成:\""+name+"\"");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
