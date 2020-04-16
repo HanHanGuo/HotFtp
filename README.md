@@ -2,8 +2,10 @@
 FTP协议服务器JAVA实现，实现主动模式被动模式，纯java没有任何第三方包，多线程处理，方便嵌入项目。
 # 运行
 使用
-FtpCommandCore commandCore = new FtpCommandCore();
-commandCore.start();
+  ```java
+  FtpCommandCore commandCore = new FtpCommandCore();
+  commandCore.start();
+  ```
 即可运行
 # 配置
 com.xianguo.ftp.core.FtpStreamCore可以更改端口号,关联目录地址.
