@@ -35,7 +35,11 @@ public enum CommandType {
 	//删除文件夹
 	RMD("RMD"),
 	//删除文件
-	DELE("DELE");
+	DELE("DELE"),
+	//服务器特性列表
+	FEAT("FEAT"),
+	//设置服务特性
+	OPTS("OPTS");
 	
 	private String command;
 	

@@ -24,7 +24,7 @@ public class FtpCommandCore extends Thread {
 				CommandHandle commandHandle = new CommandHandle();
 				FtpSender ftpSender = new FtpSender(socket);
 				commandHandle.setFtpSender(ftpSender);
-				commandHandle.setFileController(new FileController("D:", "\\"));
+				commandHandle.setFileController(new FileController("C:", "\\Users\\Administrator\\Desktop\\hoperun"));
 				FtpHandle handle = new FtpHandle(socket, commandHandle);
 				handle.start();
 			}

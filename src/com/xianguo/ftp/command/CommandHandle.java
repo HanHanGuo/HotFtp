@@ -3,8 +3,10 @@ package com.xianguo.ftp.command;
 import java.util.Random;
 
 import com.xianguo.ftp.command.bean.Command;
+import com.xianguo.ftp.command.bean.Constant;
 import com.xianguo.ftp.command.enums.CommandType;
 import com.xianguo.ftp.command.enums.ConnectionType;
+import com.xianguo.ftp.command.enums.OptsType;
 import com.xianguo.ftp.core.FtpSender;
 import com.xianguo.ftp.file.FileController;
 
@@ -68,11 +70,48 @@ public class CommandHandle {
 				return RMD_HANDLE(command,arg).toString();
 			case DELE:
 				return DELE_HANDLE(command,arg).toString();
+			case FEAT:
+				return FEAT_HANDLE(command,arg).toString();
+			case OPTS:
+				return OPTS_HANDLE(command,arg).toString();
 			default:
 				return DEFAULT_HANDLE(command, arg).toString();
 		}
 	}
 	
+	private Command OPTS_HANDLE(String command, String[] arg) {
+		if(arg.length <= 0) {
+			return Command.ERROR("未输入特征命令");
+		}
+		arg = arg[0].split(" ");
+		OptsType optsType = OptsType.getType(arg[0]);
+		optsType = optsType == null ? OptsType.UNKNOWN : optsType;
+		switch (optsType) {
+		case UTF8:
+			if(arg.length <= 1)
+				return Command.ERROR("特征命令输入不完整");
+			if("ON".equals(arg[1])) {
+				Constant.EN_CODE = "UTF-8";
+				return Command.SUCCESS();
+			}else if("OFF".equals(arg[1])) {
+				if(arg.length <= 2)
+					return Command.ERROR("特征命令输入不完整");
+				Constant.EN_CODE = arg[2];
+				return Command.SUCCESS();
+			}else {
+				return Command.ERROR("特征命令输入有误");
+			}
+		default:
+			return Command.ERROR("命令不存在");
+		}
+	}
+
+	private Command FEAT_HANDLE(String command, String[] arg) {
+		ftpSender.sendCommand(211, "Features:");
+		ftpSender.senMessage(" MDTM\n REST STREAM\n SIZE\n MLST type*;size*;modify*;\n MLSD\n "+Constant.EN_CODE+"\n CLNT\n MFMT\n EPSV\n EPRT\n");
+		return Command.COMMAND(211, "End");
+	}
+
 	private Command DELE_HANDLE(String command, String[] arg) {
 		fileController.deleteFile(arg[0]);
 		return Command.SUCCESS();

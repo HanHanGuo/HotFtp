@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 
 import com.xianguo.ftp.command.CommandHandle;
+import com.xianguo.ftp.command.bean.Constant;
 
 public class FtpHandle extends Thread {
 
@@ -31,7 +32,7 @@ public class FtpHandle extends Thread {
 			while ((temp = (byte) inputStream.read()) != -1) {
 				if (bytesIndex == bytes.length - 1) {
 					bytesIndex = -1;
-					requestInfoSb.append(new String(bytes, 0, bytes.length - 1, "UTF-8"));
+					requestInfoSb.append(new String(bytes, 0, bytes.length - 1, Constant.EN_CODE));
 					bytes = new byte[1024];
 				}
 
