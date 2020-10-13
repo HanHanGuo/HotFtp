@@ -8,7 +8,7 @@ import com.xianguo.ftp.command.bean.Command;
 
 public class FileController {
 
-	private String root;//根目录
+	private String root;//根目录（工作目录）
 	
 	private String cwd;//当前工作目录
 	
