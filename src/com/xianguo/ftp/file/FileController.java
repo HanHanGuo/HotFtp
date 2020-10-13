@@ -14,7 +14,7 @@ public class FileController {
 	
 	private File cwdFile;//当前工作目录对象
 	
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//格式化
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//格式化日期工具
 	
 	public FileController(String root,String cwd) {
 		this.root = root;
